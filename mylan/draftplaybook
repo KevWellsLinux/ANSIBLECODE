@@ -1,0 +1,29 @@
+
+hosts: all
+- name: Basic system update and installs 
+apt update
+apt upgrade -y 
+apt install -y terminator 
+apt install -y brave-browser
+apt install -y git 
+apt install -y zerotier
+
+- name: Install virtualization system
+apt install -y cpu-checker
+apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils -y
+
+
+
+
+# data volume dmcrypt - mounting
+
+# usr local bin scripts copy over from github
+# github config - ensure all relevant repository dirs are synced by github
+# set permissions for everything correctly
+
+
+
+
+
+
+

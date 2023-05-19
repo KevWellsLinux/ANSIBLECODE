@@ -1,0 +1,40 @@
+using git
+
+to add to git:
+
+cd root@asus:/home/kevin/LOCAL/WORK/AnsibleLab
+
+  git add inventory.yaml 
+  git commit -m "added inventory.yaml"
+  git branch -M main
+
+you only need this when creating a new git:
+
+  git remote add origin https://github.com/KevWellsLinux/AnsibleLab.git
+
+
+then finally do:
+  
+  git push -u origin main
+ 
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ 
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ git add AnsibleLabNOTES 
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ git commit -m "added AnsibleLabNOTES"
+[main 61729d0] added AnsibleLabNOTES
+ 1 file changed, 488 insertions(+)
+ create mode 100644 AnsibleLabNOTES
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ git branch -M main
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ git remote add origin https://github.com/KevWellsLinux/AnsibleLab.git
+error: remote origin already exists.
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ git push -u origin main
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 5.30 KiB | 5.30 MiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/KevWellsLinux/AnsibleLab.git
+   b1e3ea2..61729d0  main -> main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+kevin@asus:~/LOCAL/WORK/AnsibleLab$ 
+ 

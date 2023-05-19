@@ -1,0 +1,49 @@
+
+
+ansible virtualmachines -m ping -i inventory.yaml
+
+
+ansible-inventory -i inventory.yaml --list
+
+
+ansible-playbook -i inventory.yml  playbook-01.yml -u kevin
+
+
+root@asus:/home/kevin#  ansible --version
+ansible 2.10.8
+  config file = None
+  configured module search path = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.10.6 (main, Mar 10 2023, 10:55:28) [GCC 11.3.0]
+root@asus:/home/kevin# 
+
+
+
+ ansible example -m ping -u [username]
+
+…where [username] is the user you use to log into the server. If everything worked, you should see a
+message that shows www.example.com | success >>, then the result of your ping. If it didn’t work,
+run the command again with -vvvv on the end to see verbose output. Chances are you don’t have
+SSH keys configured properly—if you login with ssh username@www.example.com and that works,
+the above Ansible command should work, too.
+
+
+Ansible assumes you’re using passwordless (key-based) login for SSH (e.g. you login by
+entering ssh username@example.com and don’t have to type a password). If you’re still
+logging into your remote servers with a username and password, or if you need a primer
+on Linux remote authentication and security best practices, please read Chapter 10 - Server
+Security and Ansible. If you insist on using passwords, add the --ask-pass (-k) flag to
+Ansible commands (you may also need to install the sshpass package for this to work).
+
+
+Let’s run a more useful command:
+
+$ ansible example -a "free -m" -u [username]
+
+
+
+ansible-playbook -i inventory.yml  playbook-02.yml -u kevin
+
+
+
