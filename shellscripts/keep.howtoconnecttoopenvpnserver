@@ -1,0 +1,5 @@
+ you can connect to the VPN by just pointing the openvpn command to the client configuration file:
+
+    sudo openvpn --config /usr/local/bin/client.ovpn
+
+This should connect you to your server.

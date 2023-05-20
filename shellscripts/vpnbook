@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#Username: vpnbook
+#Password: VMdc6PJ
+
+
+cd /home/kevin/openvpn
+
+
+openvpn --config vpnbook-euro1-tcp443.ovpn    > /var/log/openvpn.log
+

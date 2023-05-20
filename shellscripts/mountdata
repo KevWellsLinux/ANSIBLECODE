@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+# script to mount luks volume
+# created 25.2.2021
+
+cryptsetup luksOpen /home/kevin/LOCAL/STORAGEVOLUMELUKS/STORAGEVOLUMELUKS STORAGEVOLUMELUKS
+
+# this makes the volume available as a drive device for the file system as /dev/mapper/STORAGEVOLUMELUKS
+
+# you can then mount the created device:
+
+mount /dev/mapper/STORAGEVOLUMELUKS  /media/kevin/STORAGEVOLUMELUKS
+
+
+df -h 
+
+
+
