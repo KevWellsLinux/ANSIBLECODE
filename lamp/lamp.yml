@@ -1,0 +1,6 @@
+---
+- hosts: all
+roles:
+- geerlingguy.mysql
+- geerlingguy.apache
+- geerlingguy.php

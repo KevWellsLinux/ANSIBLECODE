@@ -1,0 +1,16 @@
+---
+# From Ansible Galaxy, latest version.
+- src: geerlingguy.firewall
+# From Ansible Galaxy, specifying the version.
+- src: geerlingguy.php
+version: 1.4.1
+# From GitHub, into a particular path, with a custom name and version.
+- src: https://github.com/geerlingguy/ansible-role-passenger
+path: /etc/ansible/roles/
+name: passenger
+version: 1.0.2
+# From a web server, with a custom name.
+- src: https://www.example.com/ansible/roles/my-role-name.tar.gz
+name: my-role
+
+

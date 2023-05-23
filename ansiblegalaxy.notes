@@ -1,0 +1,144 @@
+Ansible vs Ansible Galaxy
+
+Ansible is a popular open-source configuration management tool that automates software provisioning, configuration management, and application deployment on machines. 
+
+Ansible Galaxy by contrast is a public repository where users can share and download Ansible roles for server configuration. Ansible Galaxy i can be found at https://galaxy.ansible.com/  
+
+Roles are a means of breaking large playbooks down into a smaller more manageable structure.
+
+
+
+An Overview of the Ansible Role Structure  
+
+README.md – This is the Readme document for the role 
+
+tasks – contains all tasks to be executed by the Role can be stored here. /tasks/Main.yml is the entry point for the role.
+handlers – contains handlers that are used by the role
+defaults – contains the fefault variables for the role.
+vars – contains other variables in addition to the defaults for the role.
+files – contains the files which can be deployed by the role.
+templates – contains templates which can be deployed by the role.
+meta – You can define metadata for the role here. 
+tests – this contains any CI tests to be executed.
+library – this contains embedded Modules and Plugins for the role which are not created by the init command.
+
+
+How To Create Roles With Ansible Galaxy
+
+The ansible-galaxy command comes pre-installed with Ansible.
+
+
+
+You initialize a new galaxy role with:  
+
+ansible-galaxy init
+
+A role can also be installed directly from the Ansible Galaxy repo with the command: 
+
+ansible-galaxy install <name of role>
+
+
+Some commonly used ansible-galaxy commands:
+
+ansible-galaxy  -> Displays all the options available with Galaxy
+
+ansible-galaxy list:  Displays a list of the currently installed roles  
+ansible-galaxy remove <role>: Removes an installed role
+ansible-galaxy info:  Displays information about Galaxy
+ansible-galaxy init:  Creates a role template for submission to Galaxy
+ansible-galaxy import: This galaxy command requires a login to import a role from Galaxy
+ansible-galaxy install: Installs a role from Galaxy repository
+
+
+Galaxy also allows you to host your own internal Galaxy server. To use the internal Galaxy server,  edit the default configuration in Ansible.cfg file to point to the server address of the Galaxy internal server. By default Galaxy points to the server address galaxy.ansible.com, so you need to change this.
+
+
+
+Begin with the init command (ansible-galaxy-init) and create a role. 
+
+For example:   
+ 
+
+kevin@asus:~/DATAVOLUME/ANSIBLECODE$ ansible-galaxy init testing
+- Role testing was created successfully
+kevin@asus:~/DATAVOLUME/ANSIBLECODE$ 
+ 
+   
+ansible-galaxy
+If you wish to use a MySQL server Ansible role, search for it on the Galaxy website and click on the filter button. 
+
+You will see for example that user geerlingguy has a very popular MySQL role which you can use.
+
+Click on geerlingguy MySQL.
+
+Then enter on your terminal: 
+
+ansible-galaxy-mysql
+
+This will display the installation command to install this role using ansible-galaxy.
+
+ansible-galaxy install geerlingguy.mysql
+
+
+Run the command to download and install the MySQL server role on your machine.
+
+In this case:
+
+ kevin@asus:~/DATAVOLUME/ANSIBLECODE$ansible-galaxy install geerlingguy.mysqll
+Starting galaxy role install process 
+kevin@asus:~/DATAVOLUME/ANSIBLECODE$ 
+
+ 
+ 
+
+
+Before you can use Galaxy roles in Ansible playbooks, you first have to download the role. They will by default be placed in the default Ansible roles directory at /etc/ansible/roles.
+
+
+
+
+ 
+Ansible content can also be distributed using collections. These are used for packaging and distributing playbooks, together with roles, modules, and plugins.
+
+Here is an example of a common structure:
+
+
+collection/
+├── docs/
+├── galaxy.yml
+├── plugins/
+│ ├──
+modules/
+│ │ └── module1.py
+│ ├──
+inventory/
+│ └── .../
+├── README.md
+├── roles/
+│ ├──
+role1/
+│ ├──
+role2/
+│ └── .../
+├── playbooks/
+│ ├──
+files/
+│ ├──
+vars/
+│ ├──
+templates/
+│ └── tasks/
+└── tests/
+
+
+Creating a Collection Structure
+
+To install a collection on your machine,  use the ansible-galaxy collection installation command: 
+ 
+
+init: Creates a basic collection structure based on Ansible’s default template or a template of your own
+build: Creates a collection artifact for uploading to Galaxy or to your own repository
+publish: Instructs Galaxy to publish a built collection artifact
+install: Installs one or more collections
+ 
+ 

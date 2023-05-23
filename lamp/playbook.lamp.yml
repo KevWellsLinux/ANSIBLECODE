@@ -1,0 +1,53 @@
+- name: my lamp playbook 
+  hosts: asusvpn
+  become: true
+  tasks:
+  - name: Update apt cache if needed.
+    apt: update_cache=yes cache_valid_time=3600
+
+  - name: Get software for apt repository management.
+    apt: name={{ item }} state=present
+    with_items:
+      - python-apt
+      - python-pycurl
+ 
+  - name: Add ondrej repository for later versions of PHP.
+    apt_repository: repo='ppa:ondrej/php5' update_cache=yes
+  - name: "Install Apache, MySQL, PHP, and other dependencies."
+    apt: name={{ item }} state=present
+    with_items:
+      - git
+      - curl
+      - sendmail
+      - apache2
+      - php5
+      - php5-common
+      - php5-mysql
+      - php5-cli
+      - php5-curl
+      - php5-gd
+      - php5-dev
+      - php5-mcrypt
+      - php-apc
+      - php-pear
+      - python-mysqldb
+      - mysql-server
+ 
+
+  - name: "Start Apache, MySQL, and PHP."
+    service: "name={{ item }} state=started enabled=yes"
+    with_items:
+      - apache2
+      - mysql
+
+
+  - name: Enable Apache rewrite module
+    apache2_module: name=rewrite state=present
+    notify: restart apache
+
+
+
+  - name: Remove the MySQL test database.
+    mysql_db: db=test state=absent
+  - name: Create a database for kevwells
+    mysql_db: "db={{ domain }} state=present"
