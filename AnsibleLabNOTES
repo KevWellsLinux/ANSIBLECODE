@@ -594,7 +594,27 @@ playbook: playbook.lamp.yml
 kevin@asus:~/DATAVOLUME/ANSIBLECODE/lamp$ 
 
 
+
+
+
+yamllint
+
+
+apt install yamllint
+
+
+yamllint performs syntax checks
+
  
+root@asus:/media/kevin/STORAGEVOLUMELUKS/DATAVOLUME/ANSIBLECODE/lamp# yamllint playbook.lamp.yml 
+playbook.lamp.yml
+  1:1       warning  missing document start "---"  (document-start)
+  1:25      error    trailing spaces  (trailing-spaces)
+  13:1      error    trailing spaces  (trailing-spaces)
+  35:1      error    trailing spaces  (trailing-spaces)
+  49:1      error    too many blank lines (3 > 2)  (empty-lines)
+
+root@asus:/media/kevin/STORAGEVOLUMELUKS/DATAVOLUME/ANSIBLECODE/lamp# 
 
 
 
@@ -857,6 +877,138 @@ This command will output an extensive JSON containing information about your ser
 
 ansible all -i inventory -m setup -a "filter=*ipv4*" -u sammy 
 
+
+
+
+YAML
+
+YAML is a syntax for storing structured data in plain text. It’s an alternative to JSON and XML, which you’ve probably seen and used before. Like many things in web programming today, it was originally popularised by the Ruby On Rails framework.
+
+All YAML Files Start With Three Hyphens
+
+As you work your way through this book, you'll notice that every example YAML file starts with three hyphens on the first line. This is part of the YAML spec.
+
+If you leave out the three hyphens, your YAML file won't load.
+
+Don't Mix Tabs And Spaces In YAML Files
+
+Like Python, YAML uses indentation to understand the scope of an instruction on a line. If you indent your lines using a mixture of tabs and spaces, YAML can't tell what you mean, and Ansible will report a syntax error.
+
+
+
+Roles
+A role is a single change that Ansible will make to a computer. On disk, each role is a folder that contains:
+
+One or more tasks
+Handlers to restart services when a task has run
+Files to copy up to the computer you are provisioning
+Templates to expand and then copy up to the computer you are provisioning
+Metadata to tell Ansible which roles this role depends on
+
+
+A role must contain at least a task, metadata or a handler.
+
+Roles are said to be applied to a computer when they have successfully run.
+
+Roles are fundamental to how to work with Ansible.
+
+
+
+Play
+
+A play is a YAML file that tells Ansible which roles to apply to a set of computers.
+
+---
+- hosts: build-servers
+  roles:
+  - stuartherbert.gcc
+  - stuartherbert.autotools
+  - stuartherbert.distcc
+
+
+This play tells Ansible to apply the roles stuartherbert.gcc, stuartherbert.autotools, stuartherbert.distcc to every host in the Inventory that’s in the build-servers set.
+
+
+Tasks
+
+A task is a YAML file stored inside a role’s folder. It contains instructions that tell Ansible how to apply a role to the target computer. A role must contain at least one task file, and can contain more than one.
+
+ 
+Modules
+
+An Ansible module is an Ansible code library that you can call from a task or handler. Ansible ships with a large (and growing) set of modules. You can also write your own modules.
+
+
+
+ 
+ 
+Handlers
+
+A handler is a task that gets called when a notify event is triggered by one of your tasks. They’re originally intended to restart services and daemons after you’ve made a change (so that your change is picked up and becomes active), but you can use them to do whatever you need done.
+
+
+Files
+
+A file is part of a role; it is a file to copy from your playbook repo to the target computer. It can be a plain-text file (such as a configuration file), a script that you want to run on the target computer, or even a binary of some kind.
+
+A role can contain as many, or as few files as needed.
+
+ 
+Templates
+
+A template is part of a role; it is a file that is expanded using Jinja2 and then copied from your playbook repo to the target computer. Templates are normally used for plain-text configuration files.
+
+A role can contain as many, or as few templates as needed.
+
+I explain templates in detail in Working With Config Files
+
+
+
+Metadata
+
+Metadata is part of a role, and is currently used to tell Ansible which roles it needs to run before it runs the current role. Or, in other words, which roles the current role depends upon.
+
+I look at metadata in these chapters:
+
+Adding Dependencies To Roles
+
+ Facts
+
+A fact is a constant that Ansible defines. The first thing Ansible does when it runs is to example each computer listed in the Inventory, and define a set of facts that describe that computer’s current state (known as gathering facts).
+
+You can use facts and variables in your tasks, handlers and templates.
+
+ 
+
+Gathering Facts
+
+Gathering facts is what Ansible does before it executes a playbook. Ansible logs into the target computer (normally via SSH) and defines a set of facts that describes the computer’s current state. These facts are then available to use in your tasks, handlers and templates.
+
+Variables
+
+A variable is a piece of data that you define. Variables can be set statically in the Inventory, host_vars or group_vars, or you can set variables dynamically whilst executing tasks.
+
+You can use facts and variables in your tasks, handlers and templates.
+
+  
+Inventory
+
+The Inventory is a list of hosts that you want Ansible to apply roles to, and a list of which roles apply to which hosts. Hosts can also be grouped so that you can update groups separately, or apply different variables to different groups of hosts. The Inventory is stored in a file on disk, and can be committed to source control.
+
+The Inventory can also be dynamic: generated by code, or otherwise retrieved from another software system of some kind. You can even mix and match the two approaches, having some of the Inventory in static files, and some of it dynamic. It’s an advanced topic that’s beyond the scope of this book, and covered in the official Ansible docs.
+
+
+
+
+
+Host Vars
+Host vars are variables that you have defined for a single specific host. They can be stored in the Inventory, and/or in their own per-host file on disk (which can be committed to source control).
+
+You can use facts and variables in your tasks, handlers and templates.
+
+ 
+Group Vars
+Group vars are variables that you have defined for every host in a group. They are stored in their own per-group file on disk, which can be committed to source control.
 
 
    
