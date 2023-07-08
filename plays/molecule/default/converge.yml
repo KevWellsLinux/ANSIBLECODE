@@ -1,0 +1,6 @@
+# converge.yml
+---
+- name: Converge
+  hosts: all
+# Tell Molecule not to test a role, but run our playbook
+- import_playbook: ../../playbook.yml

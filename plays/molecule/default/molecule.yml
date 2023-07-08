@@ -1,0 +1,19 @@
+# molecule.yml
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:  # Configures the list of environments to which Molecule applies our playbook/role
+  - name: instance
+    image: "geerlingguy/docker-rockylinux8-ansible:latest"
+    pre_build_image: true
+    # The following 4 lines are needed only for making systemd work
+    command: ""  # disables that Molecule overrides the Docker container's start command and instead run's the init-system binary
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

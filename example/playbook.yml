@@ -1,0 +1,20 @@
+---
+ - name: Ansible apt module examples
+   hosts: asus
+   become: true
+   tasks: 
+  #  - name: Ansible Update Cache and Upgrade all Packages
+  #    register: updatesys
+   #    apt:
+   #     name: "*"
+   #     state: latest
+   #     update_cache: yes
+    - name: Upgrade all apt packages
+      apt: upgrade=dist force_apt_get=yes 
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: yes
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes
+

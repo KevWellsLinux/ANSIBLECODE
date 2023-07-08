@@ -1,0 +1,40 @@
+## set up ssh user name and path to python3 ##
+[all:vars]
+ansible_user='kevin'
+ansible_become=yes
+ansible_become_method=sudo
+ansible_python_interpreter='/usr/bin/env python3'
+
+
+# zerotier-one VPN host interfaces - from /etc/hosts  - here for reference:
+#10.147.18.1     lenvpn
+#10.147.18.84    intelvpn        
+#10.147.18.14    asusvpn
+#10.147.18.72    kevinvm1vpn  # aws server replacement for kevwells.com
+
+
+ 
+## all our machines
+[all]
+10.147.18.1
+10.147.18.14
+10.147.18.72
+10.147.18.84 
+
+
+[laptops]
+10.147.18.1
+10.147.18.14
+
+
+[ubuntu]
+10.147.18.1
+10.147.18.14
+10.147.18.72
+10.147.18.84
+
+[servers]
+10.147.18.72
+
+
+
