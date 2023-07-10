@@ -38,11 +38,45 @@
       ansible.builtin.apt:
         autoremove: 'yes'
 
+# to do: server:
+# install wordpress, setup website kevwells.com
+# set up data volume network shares
+# configure security groups aws
+
 
 - hosts: laptops
   gather_facts: 'yes'
   become: 'yes'
   tasks:
+    - name: install brave-browser dependencies
+      ansible.builtin.apt:
+        name: apt-transport-https curl 
+        state: present
+
+    - name: Download gpg keys
+      ansible.builtin.get_url:
+        url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+        dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+
+    - name: Add specified repository into sources list
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
+        state: present
+
+##  gpk keys:
+## curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+# add the repo:
+## echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
+
+# apt install brave-browser
+
+
+    - name: install brave-browser 
+      ansible.builtin.apt:
+        name: 
+        state: present
+
     - name: install terminator
       ansible.builtin.apt:
         name: terminator
@@ -65,7 +99,7 @@
     - name: install libvirt-clients
       ansible.builtin.apt:
         name: libvirt-clients
-        state: present
+        state: present 
     - name: install libvirt-daemon-system
       ansible.builtin.apt:
         name: libvirt-daemon-system
@@ -74,4 +108,28 @@
       ansible.builtin.apt:
         name: bridge-utils
         state: present
+#next,start the kvm services and enable 
+#systemctl enable libvirtd
+# systemctl start libvirtd
+## but above state: present  . could be enough, since we do not want to auto start these services, only start manually when needed
+
+# add your desired user to the KVM and libvirt groups:
+# usermod -aG kvm $USER
+# usermod -aG libvirt $USER
+
+
+## to do : laptops:
+
+# install brave browser
+# dependencies: 
+# apt install apt-transport-https curl
+##  gpk keys:
+# curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+# add the repo:
+ ## echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
+
+# apt install brave-browser
+
+
 
