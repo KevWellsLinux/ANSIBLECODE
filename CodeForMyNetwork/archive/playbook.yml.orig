@@ -1,7 +1,10 @@
+---
 - hosts: all
-  gather_facts: 'yes'
-  become: 'yes'
-  tasks:
+  gather_facts: yes
+  become: yes
+  
+  tasks: 
+
     - name: Copy hosts file
       ansible.builtin.copy:
         src: /etc/hosts
@@ -9,7 +12,8 @@
         owner: root
         group: root
         mode: '0644'
-    - name: Copy /usr/local/bin folder
+
+    - name: Copy /usr/local/bin folder 
       ansible.builtin.copy:
         src: /usr/local/bin/
         dest: /usr/local/bin/
@@ -17,92 +21,78 @@
         group: root
         mode: '0644'
 
-    - name: Install zerotier-one vpn
-      ansible.builtin.apt:
-        name: zerotier
-        state: present 
+   
+
+#    - name: Install something  (state=present is optional)
+#      ansible.builtin.apt:
+#        name: openssl
+#        state: present
+
 
     - name: Perform a dist-upgrade.
       ansible.builtin.apt:
         upgrade: dist
-        update_cache: 'yes'
+        update_cache: yes
+
     - name: Check if a reboot is required.
       ansible.builtin.stat:
         path: /var/run/reboot-required
-        get_md5: 'no'
+        get_md5: no
       register: reboot_required_file
+
     - name: Reboot the server (if required).
-      ansible.builtin.reboot: null
+      ansible.builtin.reboot:
       when: reboot_required_file.stat.exists == true
+
     - name: Remove dependencies that are no longer required.
       ansible.builtin.apt:
-        autoremove: 'yes'
-
-# to do: server:
-# install wordpress, setup website kevwells.com
-# set up data volume network shares
-# configure security groups aws
-
+        autoremove: yes
 
 - hosts: laptops
-  gather_facts: 'yes'
-  become: 'yes'
-  tasks:
-    - name: install terminator
+  gather_facts: yes
+  become: yes
+ 
+  tasks: 
+  
+    - name: install terminator 
       ansible.builtin.apt:
         name: terminator
         state: present
+  
     - name: install virtualization system
       ansible.builtin.apt:
-        name: cpu-checker
+        name: cpu-checker 
         state: present
-    - name: install qemu-kvm
+
+
+    - name: install qemu-kvm 
       ansible.builtin.apt:
-        name: qemu-kvm
+        name:  qemu-kvm
         state: present
-    - name: Copy /home/kevin/shellscripts/ folder
+
+    - name: Copy /home/kevin/shellscripts/ folder 
       ansible.builtin.copy:
         src: /home/kevin/shellscripts/
         dest: /home/kevin/shellscripts/
         owner: kevin
         group: kevin
         mode: '0644'
+
     - name: install libvirt-clients
       ansible.builtin.apt:
-        name: libvirt-clients
+        name:  libvirt-clients
         state: present
+
     - name: install libvirt-daemon-system
       ansible.builtin.apt:
-        name: libvirt-daemon-system
+        name:  libvirt-daemon-system 
         state: present
+
     - name: install bridge-utils
       ansible.builtin.apt:
-        name: bridge-utils
+        name:  bridge-utils
         state: present
-#next,start the kvm services and enable 
-#systemctl enable libvirtd
-# systemctl start libvirtd
 
-# add your desired user to the KVM and libvirt groups:
-# usermod -aG kvm $USER
-# usermod -aG libvirt $USER
-
-
-
-
-
-## to do : laptops:
-
-# install brave browser
-# dependencies: 
-# apt install apt-transport-https curl
-##  gpk keys:
-# curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-
-# add the repo:
- ## echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
-
-# apt install brave-browser
-
-
+#apt install -y cpu-checker
+#apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils -y
 

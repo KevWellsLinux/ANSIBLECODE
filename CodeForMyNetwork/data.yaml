@@ -16,12 +16,6 @@
         owner: root
         group: root
         mode: '0644'
-
-    - name: Install zerotier-one vpn
-      ansible.builtin.apt:
-        name: zerotier
-        state: present 
-
     - name: Perform a dist-upgrade.
       ansible.builtin.apt:
         upgrade: dist
@@ -37,13 +31,6 @@
     - name: Remove dependencies that are no longer required.
       ansible.builtin.apt:
         autoremove: 'yes'
-
-# to do: server:
-# install wordpress, setup website kevwells.com
-# set up data volume network shares
-# configure security groups aws
-
-
 - hosts: laptops
   gather_facts: 'yes'
   become: 'yes'
@@ -79,30 +66,3 @@
       ansible.builtin.apt:
         name: bridge-utils
         state: present
-#next,start the kvm services and enable 
-#systemctl enable libvirtd
-# systemctl start libvirtd
-
-# add your desired user to the KVM and libvirt groups:
-# usermod -aG kvm $USER
-# usermod -aG libvirt $USER
-
-
-
-
-
-## to do : laptops:
-
-# install brave browser
-# dependencies: 
-# apt install apt-transport-https curl
-##  gpk keys:
-# curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-
-# add the repo:
- ## echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
-
-# apt install brave-browser
-
-
-

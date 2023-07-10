@@ -37,4 +37,16 @@ ansible_python_interpreter='/usr/bin/env python3'
 10.147.18.72
 
 
+# definitions for each machine, needed for machine-specific commands and configurations:
 
+[asusvpn]
+10.147,18.14
+
+[lenvpn]
+10.147.18.1
+
+[intelvpn]
+10.147.18.84
+
+[kevinvm1vpn]
+10.147.18.72
