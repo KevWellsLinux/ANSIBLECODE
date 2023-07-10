@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: all 
   gather_facts: 'yes'
   become: 'yes'
   tasks:
@@ -15,7 +15,7 @@
         dest: /usr/local/bin/
         owner: root
         group: root
-        mode: '0644'
+        mode: '0755'
 
     - name: Install zerotier-one vpn
       ansible.builtin.apt:
@@ -53,15 +53,17 @@
         name: apt-transport-https curl 
         state: present
 
-    - name: Download gpg keys
+    - name: Download gpg keys for brave-browser
       ansible.builtin.get_url:
         url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
         dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
 
-    - name: Add specified repository into sources list
+    - name: Add brave-browser repository into sources list
       ansible.builtin.apt_repository:
         repo: deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
         state: present
+ 
+
 
 ##  gpk keys:
 ## curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -74,7 +76,7 @@
 
     - name: install brave-browser 
       ansible.builtin.apt:
-        name: 
+        name: brave-browser
         state: present
 
     - name: install terminator
@@ -118,6 +120,13 @@
 # usermod -aG libvirt $USER
 
 
+    - name: install vlc 
+      ansible.builtin.apt:
+        name: vlc
+        state: present
+
+
+
 ## to do : laptops:
 
 # install brave browser
@@ -130,6 +139,78 @@
  ## echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
 
 # apt install brave-browser
+
+
+# set up the crontab:
+
+# this is our local data backup from the kevinvm1vpn NFS data share:
+
+# NOTE: /home/kevin/LOCAL/STORAGEVOLUMELUKS contains STORAGEVOLUMELUKS encrypted data volume: 
+# this is mounted manually using /usr/local/bin/mountdata
+# this is the container which contains the data. 
+# The crontab command below syncs the nfs mount of DATA from kevinvm1vpn server to this local encrypted volume:
+
+
+# IF connected to and using DATA NFS Share on kevinvm1vpn as primary data location: 
+##30 3 * * *   rsync -avu --update /media/kevin/KEVINVM1VPN/srv/nfs4/NFSSHARE/DATAVOLUME/     /media/kevin/STORAGEVOLUMELUKS/DATAVOLUME/ 
+##45 3 * * *   rsync -avu --update /media/kevin/KEVINVM1VPN/srv/nfs4/NFSSHARE/ARCHIVEVOLUME/  /media/kevin/STORAGEVOLUMELUKS/ARCHIVEVOLUME/
+
+
+# ELSE IF NOT using DATA NFS Share on kevinvm1vpn as primary data location, 
+# but instead using local STORAGEVOLUMELUKS data volume as primary:
+# in this case we sync in the opposite direction:
+
+#### THIS HAS TO RUN AS KEVIN USER NOT ROOT! - so I have put it in the crontab for kevin:
+
+##  30 3 * * *   rsync -avu --update  /media/kevin/STORAGEVOLUMELUKS/DATAVOLUME/      /media/kevin/KEVINVM1VPN/srv/nfs4/NFSSHARE/DATAVOLUME/
+##  45 3 * * *   rsync -avu --update  /media/kevin/STORAGEVOLUMELUKS/ARCHIVEVOLUME/   /media/kevin/KEVINVM1VPN/srv/nfs4/NFSSHARE/ARCHIVEVOLUME/
+
+##23 2 * * * rsync -av --update  /media/kevin/STORAGEVOLUMELUKS/  /media/kevin/KEVINVM1VPN/STORAGEVOLUMELUKS/
+
+    - name: Configure crontab to run job rsync DATAVOLUME  
+      ansible.builtin.cron:
+        name: "rsync DATAVOLUME to AWS"
+        minute: "30"
+        hour: "3"
+        job: "rsync -avu --update  /media/kevin/STORAGEVOLUMELUKS/DATAVOLUME/      /media/kevin/KEVINVM1VPN/srv/nfs4/NFSSHARE/DATAVOLUME/"
+
+    - name: Configure crontab to run job rsync DATAVOLUME  
+      ansible.builtin.cron:
+        name: "rsync ARCHIVEVOLUME to AWS"
+        minute: "45"
+        hour: "3"
+        job: "rsync -avu --update  /media/kevin/STORAGEVOLUMELUKS/ARCHIVEVOLUME/   /media/kevin/KEVINVM1VPN/srv/nfs4/NFSSHARE/ARCHIVEVOLUME/"
+
+
+
+## nfs
+
+
+    - name: check nfs installed
+      ansible.builtin.apt:
+        name:
+          - nfs-common
+          - nfs4-acl-tools
+        state: present
+
+# create the mount point directories:
+
+
+## mountpoint:  
+
+##/media/kevin/KEVINVM1VPN
+
+## for the script mountaws:  
+## mount -v -t nfs -o proto=tcp,vers=4,nolock   kevinvm1vpn:/   /media/kevin/KEVINVM1VPN 
+
+    - name: Mount an NFS volume
+      ansible.posix.mount:
+        src: kevinvm1vpn:/
+        path: /media/kevin/KEVINVM1VPN
+        opts: rw,sync,hard
+        state: mounted
+        fstype: nfs
+
 
 
 
