@@ -1,5 +1,7 @@
----
-# tasks file for control
+- hosts: servers  
+  gather_facts: 'yes'
+  become: 'yes'
+  tasks:
 
     - name: Copy hosts file
       ansible.builtin.copy:
@@ -8,7 +10,6 @@
         owner: root
         group: root
         mode: '0644'
-
     - name: Copy /usr/local/bin folder
       ansible.builtin.copy:
         src: /usr/local/bin/
@@ -26,17 +27,14 @@
       ansible.builtin.apt:
         upgrade: dist
         update_cache: 'yes'
-
     - name: Check if a reboot is required.
       ansible.builtin.stat:
         path: /var/run/reboot-required
         get_md5: 'no'
       register: reboot_required_file
-
     - name: Reboot the server (if required).
       ansible.builtin.reboot: null
       when: reboot_required_file.stat.exists == true
-
     - name: Remove dependencies that are no longer required.
       ansible.builtin.apt:
         autoremove: 'yes'
@@ -51,12 +49,10 @@
       ansible.builtin.apt:
         name: cpu-checker
         state: present
-
     - name: install qemu-kvm
       ansible.builtin.apt:
         name: qemu-kvm
         state: present
-
     - name: Copy /home/kevin/shellscripts/ folder
       ansible.builtin.copy:
         src: /home/kevin/shellscripts/
@@ -64,22 +60,18 @@
         owner: kevin
         group: kevin
         mode: '0755'
-
     - name: install libvirt-clients
       ansible.builtin.apt:
         name: libvirt-clients
         state: present 
-
     - name: install libvirt-daemon-system
       ansible.builtin.apt:
         name: libvirt-daemon-system
         state: present
-
     - name: install bridge-utils
       ansible.builtin.apt:
         name: bridge-utils
         state: present
-
 #next,start the kvm services and enable 
 #systemctl enable libvirtd
 # systemctl start libvirtd
