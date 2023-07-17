@@ -1,0 +1,78 @@
+---
+# tasks file for laptops
+
+    - name: Copy hosts file
+      ansible.builtin.copy:
+        src: /etc/hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Copy /usr/local/bin folder
+      ansible.builtin.copy:
+        src: /usr/local/bin/
+        dest: /usr/local/bin/
+        owner: root
+        group: root
+        mode: '0755'
+
+
+#    Perform a dist-update and upgrade.
+
+    - name: update apt
+      apt: update_cache=yes
+
+    - name: upgrade apt 
+      apt: upgrade=dist force_apt_get=yes
+
+    - name: check if a reboot is required.
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+        get_md5: 'no'
+      register: reboot_required_file
+
+    - name: check if a reboot is needed for Debian and Ubuntu boxes
+      register: reboot_required_file
+      stat: path=/var/run/reboot-required get_md5=no
+
+  #  - name: Reboot the server (if required).
+   #   ansible.builtin.reboot: null
+    #  when: reboot_required_file.stat.exists == true
+
+    - name: reboot the Debian or Ubuntu server
+      reboot:
+        msg: "Reboot initiated by Ansible due to kernel updates"
+        connect_timeout: 5
+        reboot_timeout: 300
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: uptime
+      when: reboot_required_file.stat.exists
+
+    - name: remove dependencies that are no longer required.
+      ansible.builtin.apt:
+        autoremove: 'yes'
+
+    - name: install zerotier-one vpn
+      ansible apt:
+        name: zerotier
+        state: present 
+
+
+
+    - name: install brave-browser dependencies
+      ansible.builtin.apt:
+        name: apt-transport-https curl 
+        state: present
+
+    - name: Download gpg keys for brave-browser
+      ansible.builtin.get_url:
+        url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+        dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+
+    - name: Add brave-browser repository into sources list
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
+        state: present
+ 
+
