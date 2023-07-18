@@ -1,0 +1,12 @@
+#- hosts: all  
+# - hosts: control
+- hosts: laptops
+#   connection: local
+  gather_facts: 'yes'
+  become: 'yes'
+  roles: 
+#     - control  
+    - laptops
+#    - lenvpn
+
+

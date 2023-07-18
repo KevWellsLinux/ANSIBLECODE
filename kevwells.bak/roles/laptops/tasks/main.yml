@@ -1,17 +1,5 @@
 ---
-<<<<<<< HEAD
-# tasks file for laptops
 
-- name: Copy hosts file
-  ansible.builtin.copy:
-    src: /etc/hosts
-    dest: /etc/hosts
-    owner: root
-    group: root
-    mode: '0644'
-=======
-
->>>>>>> d879f88 (updates)
 - name: Copy /usr/local/bin folder
   ansible.builtin.copy:
     src: /usr/local/bin/

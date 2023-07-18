@@ -1,0 +1,158 @@
+
+
+127.0.0.1   localhost kevwellsorig
+#127.0.1.1   asus
+
+
+# local ethernet lan:
+
+192.168.100.10 len
+192.168.100.14 asus
+192.168.100.100 raspberrypi rpi
+
+
+45.32.180.153   imap.kevwells.com
+45.32.180.153   smtp.kevwells.com
+
+3.222.27.169    kevinvm1
+
+
+# zerotier-one VPN host interfaces
+10.147.18.1     lenvpn
+10.147.18.14    asusvpn
+10.147.18.72    kevinvm1vpn
+10.147.18.84    intelvpn
+
+# libvirt kvm virtual machine rocky 9 linux:
+192.168.122.215  rocky9-base
+192.168.122.87   rocky9
+
+
+# Puppet hostnames:
+
+10.147.18.185 puppetmaster puppet puppetclient_geminivpn
+10.147.18.14  puppetclient_asusvpn
+10.147.18.84  puppetclient_intelpn
+10.147.18.65  puppetclient_lenvpn
+
+
+#floating IP for LVS Lab webservice 
+#10.0.4.200  lvs.localdomain
+
+192.168.100.100 lvs.localdomain
+
+
+# 192.168.122.0 : this is the public network from laptop to KVM machines
+
+# these are the bridge interfaces for the KVM cluster machines:
+
+192.168.122.1 asusbridge
+192.168.122.5 centos-basevm # centos7
+192.168.122.6 suse-basevm
+192.168.122.7 ubuntu-basevm
+192.168.122.8 ceph-base # centos7
+
+
+192.168.122.10 susestoragevm
+
+192.168.122.20 centosstoragevm
+192.168.122.21 centos1vm	
+192.168.122.22 centos2vm
+192.168.122.23 centos3vm
+192.168.122.24 centos4vm
+
+192.168.122.31 ubuntu31vm
+192.168.122.32 ubuntu32vm
+192.168.122.33 ubuntu33vm
+
+192.168.122.40 ceph-monvm ceph-mdsvm
+
+192.168.122.50 ceph-osd0vm
+192.168.122.51 ceph-osd1vm
+192.168.122.52 ceph-osd2vm
+
+
+192.168.122.61 suse61vm
+192.168.122.62 suse62vm
+192.168.122.63 suse63vm
+
+# GlusterFS VMs
+192.168.122.70 glusterfs1
+192.168.122.71 glusterfs2
+
+
+
+
+#####################
+# Ansible Test Machines
+# use 192.168.122.0 subnetwork from 192.168.122.100 
+# this is so we can access the network easily from the laptop using the existing kvm router
+
+192.168.122.100 ubuntu-base
+
+192.168.122.101 ubuntu101
+192.168.122.102 ubuntu102
+192.168.122.103 ubuntu103
+
+
+
+
+
+# CentOS 7 for ZFS:
+
+10.0.4.31 ubuntu31
+10.0.4.32 ubuntu32
+10.0.4.33 ubuntu33
+
+
+#KVM SUSE Cluster 10.0.6.0 uses 192.168.122.0 static from KVM - 
+# can login to machines from yoga using this network, also routes to internet
+# 10.0.6.0 is the cluster subnet only,NOT routed to yoga nor internet
+
+10.0.6.10 susestorage.localdomain  susestorage
+10.0.6.61 suse61.localdomain suse61
+10.0.6.62 suse62.localdomain suse62
+10.0.6.63 suse63.localdomain suse63
+
+10.0.6.235 suse-base.localdomain suse-base
+
+
+#KVM Centos Cluster: uses 192.168.122.0  static from KVM - can login to machines from yoga using this network, also routes to internet via NAT on KVM
+# 10.0.8.0 is the cluster subnet only,NOT routed to yoga nor internet
+
+10.0.8.10 centosstorage.localdomain centosstorage
+10.0.8.11 centos1.localdomain centos1
+10.0.8.12 centos2.localdomain centos2
+10.0.8.13 centos3.localdomain centos3
+10.0.8.14 centos4.localdomain centos4
+
+10.0.8.100 router1 # centos v7 machine
+
+10.0.8.235 centos-base.localdomain  centos-base
+
+# ceph cluster 10.0.9.0 centos version 7 
+
+10.0.9.100 router2 # centos v7 machine
+10.0.9.9   ceph-base
+ 
+
+# deactivated for network bonding!
+#10.0.9.40 ceph-mon ceph-mds  # eth1
+#10.0.9.41 ceph-mon ceph-mds  # eth2 for network bonding
+
+10.0.9.45 ceph-mon ceph-mds  # bond0 network bonding
+
+10.0.9.10 ceph-osd0
+10.0.9.11 ceph-osd1
+10.0.9.12 ceph-osd2
+
+
+#VLANs
+
+#vlan-1
+
+
+192.168.133.1  asus 
+192.168.133.40 ceph-mon
+192.168.133.41 ceph-osd0
+
