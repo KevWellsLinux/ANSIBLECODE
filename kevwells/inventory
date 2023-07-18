@@ -1,3 +1,5 @@
+localhost ansible_connection=local
+
 ## set up ssh user name and path to python3 ##
 [all:vars]
 ansible_user='kevin'

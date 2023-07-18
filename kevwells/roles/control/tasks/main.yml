@@ -1,13 +1,8 @@
 ---
 # tasks file for control
 
+# ensure local machine on which ansible is being run is not ssh'd into from the same machine:
 
-    - name: Copy /usr/local/bin folder
-      ansible.builtin.copy:
-        src: /usr/local/bin/
-        dest: /usr/local/bin/
-        owner: root
-        group: root
-        mode: '0755'
-
+#- name: local connection
+#  connection: local
 
