@@ -1,0 +1,26 @@
+
+## umount /media/kevin/nfs4
+
+#umount /srv/nfs4
+
+umount /media/kevin/KEVINVM1VPN
+umount /media/kevin/STORAGEVOLUMELUKS
+umount /media/kevin/WELLSGRAPHICSVOLLUKS
+
+df
+
+
+#umount /media/kevin/LEN 
+
+#umount /media/kevin/LEN/PRIMARY_MEDIA
+#umount /media/kevin/LEN/PRIMARY_BACKUP
+
+#umount /media/kevin/nfs4/DATA
+
+#umount /media/kevin/PRIMARY_MEDIA
+#umount /media/kevin/PRIMARY_BACKUP
+#umount /media/kevin/SECONDARY_MEDIA
+
+#umount /media/kevin/nfs4/NEXTCLOUD
+#umount /media/kevin/nfs4/Downloads	
+# umount /media/kevin/nfs4

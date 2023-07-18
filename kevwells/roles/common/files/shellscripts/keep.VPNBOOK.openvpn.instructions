@@ -1,0 +1,56 @@
+VPNBOOK
+
+
+
+OpenVPN is the best and most recommended open-source VPN software world-wide. It is the most secure VPN option. You need to download the open-source OpenVPN Client and our configuration and certificate bundle from the links below (use TCP if you cannot connect to UDP due to network restriction).
+
+
+Free OpenVPN Account (Requires Download of the free opensource OpenVPN Client, OpenVPN offers the best anonymity and is impossible to block by your government, school or Internet Service Provider.) - You should try all the profiles and see which provides the fastest and most stable speeds.
+
+Server #1: Download Euro1 Server OpenVPN Certificate Bundle
+Server #2: Download Euro2 Server OpenVPN Certificate Bundle
+Server #3: Download US1 Server OpenVPN Certificate Bundle (US VPN - web surfing only; no p2p)
+Server #4: Download US2 Server OpenVPN Certificate Bundle (US VPN - web surfing only; no p2p)
+Server #5: Download CA Server OpenVPN Certificate Bundle (Canada VPN - web surfing only; no p2p)
+Server #6: Download DE Server OpenVPN Certificate Bundle (Germany VPN - web surfing only; no p2p)
+All bundles include UDP53, UDP 25000, TCP 80, TCP 443 profile
+
+Username: vpnbook
+Password: VMdc6PJ
+
+How To Set Up OpenVPN on Ubuntu
+ 
+Step-by-step Guide to Setting Up OpenVPN on Ubuntu  
+
+
+Step 1: Download one of the VPNBook OpenVPN certificate bundles
+
+Step 2: Unzip the OpenVPN certificate bundle
+
+Step 3: Install and OpenVPN client with command "apt-get install openvpn"
+
+
+Step-by-step Guide to Setting Up OpenVPN on Ubuntu  
+
+
+Step 1: Download one of the VPNBook OpenVPN certificate bundles
+
+Step 2: Unzip the OpenVPN certificate bundle
+
+Step 3: Install and OpenVPN client with command "apt-get install openvpn"
+
+Step 4: Launch OpenVPN client with one of the VPNBook OpenVPN profile. Command: "openvpn --config vpnbook-euro1-tcp443.ovpn"
+
+Step 5: Your public IP address is now changed to VPNBook server IP address
+
+
+Frequently Asked Questions
+Q: How is your free VPN service financially supported?
+A: This free VPN service is supported by advertisement on our website and generous donations made by our supporters. If you enjoy this service, please consider donating so we can keep this as a free service and add more servers in the future.
+Q: Why there isn't a CA certificate in OpenVPN bundle anymore?
+A: The CA certificate is now embedded in the OpenVPN configuraiton files (.ovpn file). A seperate certificate is no longer needed.
+Q: Why do you change VPN password from time to time?
+A: We update our VPN password every one to two weeks for better security and to ensure this free service is only used by active users.
+
+
+

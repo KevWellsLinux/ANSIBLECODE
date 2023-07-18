@@ -10,43 +10,44 @@
   apt: upgrade=dist force_apt_get=yes
 
 
- - name: Copy hosts file
-   ansible.builtin.copy:
-     src: /etc/hosts
-     dest: /etc/hosts
-     owner: root
-     group: root
-     mode: '0644'
+- name: Copy hosts file
+  ansible.builtin.copy:
+    src: /home/kevin/NFSVOLUME/DATAVOLUME/ANSIBLECODE/kevwells/roles/common/files/hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Copy /usr/local/bin folder
   ansible.builtin.copy:
-    src: /usr/local/bin/
+    src: /home/kevin/NFSVOLUME/DATAVOLUME/ANSIBLECODE/kevwells/roles/common/files/usr_local_bin/
     dest: /usr/local/bin/
     owner: root
     group: root
     mode: '0755'
 
- - name: Copy /home/kevin/shellscripts/ folder
-   ansible.builtin.copy:
-     src: /home/kevin/shellscripts/
-     dest: /home/kevin/shellscripts/
-     owner: kevin
-     group: kevin
-     mode: '0755'
+- name: Copy /home/kevin/shellscripts/ folder
+  ansible.builtin.copy:
+    src: /home/kevin/NFSVOLUME/DATAVOLUME/ANSIBLECODE/kevwells/roles/common/files/shellscripts/
+    dest: /home/kevin/shellscripts/
+    owner: kevin
+    group: kevin
+    mode: '0755'
 
 
- - name: install multiple packages for common
-   apt: 
-     pkg:
-     - zerotier-one
-     - curl
-     - apt-transport-https
-     - libvirt-clients
-     - libvirt-daemon-system
-     - bridge-utils
-     - cpu-checker
-     - qemu-kvm
-     state: latest
+- name: install multiple packages for common
+  apt: 
+    pkg:
+    - ansible-lint
+    - zerotier-one
+    - curl
+    - apt-transport-https
+    - libvirt-clients
+    - libvirt-daemon-system
+    - bridge-utils
+    - cpu-checker
+    - qemu-kvm
+    state: latest
 
 
 - name: remove dependencies that are no longer required.

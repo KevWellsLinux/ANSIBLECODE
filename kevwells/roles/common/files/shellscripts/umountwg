@@ -1,0 +1,16 @@
+
+#!/bin/bash
+#script to unmount and close luks volume
+
+#created 25.2.2021
+
+umount /media/kevin/WELLSGRAPHICSVOLLUKS
+
+sleep 1
+
+cryptsetup luksClose  WELLSGRAPHICSVOLLUKS 
+
+df -h 
+
+
+

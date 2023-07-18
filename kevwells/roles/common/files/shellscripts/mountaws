@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+# this file is /usr/local/bin/mountaws to mount nfs volumes from  my kevinvm1 ec2 instance
+
+ 
+#intelvpn:/MEDIA/              /home/kevin/MEDIA            nfs    defaults,timeo=900,retrans=5,_netdev
+#intelvpn:/PRIMARY_BACKUP      /home/kevin/PRIMARY_BACKUP   nfs    defaults,timeo=900,retrans=5,_netdev
+#intelvpn:/srv/PRIMARY_BACKUP      /home/kevin/PRIMARY_BACKUP   nfs  
+
+# we are on asus so no need for this:
+
+#mount -v -t nfs -o proto=tcp,vers=4,nolock lenvpn:/     /media/kevin/LEN
+
+mount -v -t nfs -o proto=tcp,vers=4,nolock   kevinvm1vpn:/   /media/kevin/KEVINVM1VPN  
+
+
+
+
+df -h
+

@@ -1,0 +1,35 @@
+#!/bin/bash
+# Script: /usr/local/bin/megabackup.sh 
+# Date Created: 18.4.2020
+# Last Modifled 9.07.2020
+# Author: Kevin Wells
+# Purpose: Backup VERACRYPT and Nextcloud-DATA from gemini to mega.nz
+# How called:  via crontab. Can also be called manually
+# Requires: megacopy utility from mega.nz 
+# Location: gemini linux server
+
+LOGFILE=/var/log/megabackup.log
+
+date  > $LOGFILE
+
+megacopy -l /home/kevin/BACKUP/DATA                                -r /Root/MEGAsync/DATA/        -u kevrwells@gmail.com  -p T-iLBCwnc1  >> $LOGFILE  
+
+# no longer needed as we are using symlinks for NEXTCLOUD_DATA to /home/kevin/BACKUP/DATA/NEXTCLOUD_DATA 
+  
+#megacopy -l /var/www/nextcloud/data/KevCloudWells/files/NEXTCLOUD_DATA/      -r /Root/MEGAsync/nextcloud   -u kevrwells@gmail.com  -p T-iLBCwnc1  >> $LOGFILE 
+
+# this is run from crontab after rsync from laptop to gemini
+#/usr/local/bin/nextcloud_dbreset.sh > /var/log/nextcloud_dbreset.log
+
+
+echo "megabackup.sh completed at " >> $LOGFILE
+date >> $LOGFILE
+
+
+
+
+# Scriptende
+
+
+
+
