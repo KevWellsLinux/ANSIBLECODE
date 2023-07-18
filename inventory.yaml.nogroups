@@ -1,0 +1,8 @@
+virtualmachines:
+  hosts:
+    ubuntu101:
+      ansible_host: 192.168.122.101
+    ubuntu102:
+      ansible_host: 192.168.122.102
+    ubuntu103:
+      ansible_host: 192.168.122.103

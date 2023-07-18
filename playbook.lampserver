@@ -1,0 +1,134 @@
+this is my code draft for a playbook for my aws server:
+
+includes copy pasted segments from the ansible for devops textbook, needs to be modified for my server config
+
+
+
+---
+- hosts: all
+vars_files:
+- vars.yml
+
+pre_tasks:
+- name: Update apt cache if needed.
+  apt: update_cache=yes cache_valid_time=3600
+
+handlers:
+- name: restart apache
+  service: name=apache2 state=restarted
+
+tasks:
+- name: Get software for apt repository management.
+  apt: name={{ item }} state=present
+  with_items:
+  - python-apt
+  - python-pycurl
+
+- name: Add ondrej repository for later versions of PHP.
+  apt_repository: repo='ppa:ondrej/php5' update_cache=yes
+- name: "Install Apache, MySQL, PHP, and other dependencies."
+
+  apt: name={{ item }} state=present
+  with_items:
+    - git
+    - curl
+    - sendmail
+    - apache2
+    - php5
+    - php5-common
+    - php5-mysql
+    - php5-cli
+    - php5-curl
+    - php5-gd
+    - php5-dev
+    - php5-mcrypt
+    - php-apc
+    - php-pear
+    - python-mysqldb
+    - mysql-server
+ 
+- name: Disable the firewall (since this is for local dev only).
+  service: name=ufw state=stopped
+- name: "Start Apache, MySQL, and PHP."
+  service: "name={{ item }} state=started enabled=yes"
+  with_items:
+    - apache2
+    - mysql
+
+
+- name: Enable Apache rewrite module (required for Drupal).
+  apache2_module: name=rewrite state=present
+  notify: restart apache
+- name: Add Apache virtualhost for Drupal 8 development.
+  template:
+  src: "templates/drupal.dev.conf.j2"
+  dest: "/etc/apache2/sites-available/{{ domain }}.dev.conf"
+  owner: root
+  group: root
+  mode: 0644
+  notify: restart apache
+- name: Symlink Drupal virtualhost to sites-enabled.
+  file:
+  src: "/etc/apache2/sites-available/{{ domain }}.dev.conf"
+  dest: "/etc/apache2/sites-enabled/{{ domain }}.dev.conf"
+  state: link
+  notify: restart apache
+
+- name: Remove default virtualhost file.
+file:
+path: "/etc/apache2/sites-enabled/000-default"
+state: absent
+notify: restart apache
+
+
+- name: Remove the MySQL test database.
+  mysql_db: db=test state=absent
+- name: Create a database for Drupal.
+  mysql_db: "db={{ domain }} state=present"
+
+  
+
+
+
+kevin@asus:~/DATAVOLUME/ANSIBLECODE$ ansible-galaxy install geerlingguy.apache geerlingguy.mysql geerlingguy.php
+Starting galaxy role install process
+[WARNING]: - geerlingguy.apache (3.3.0) is already installed - use --force to change version to unspecified
+[WARNING]: - geerlingguy.mysql (4.3.2) is already installed - use --force to change version to unspecified
+[WARNING]: - geerlingguy.php (4.8.0) is already installed - use --force to change version to unspecified
+kevin@asus:~/DATAVOLUME/ANSIBLECODE$ 
+
+
+
+To install the roles defined in a requirements file, use the command 
+
+ansible-galaxy install -r requirements.yml 
+
+ 
+Now, run the playbook 
+$ ansible-playbook -i inventory lamp.yml
+
+
+
+
+kevin@asus:~/DATAVOLUME/ANSIBLECODE$ ansible-inventory -i inventory.yml --list
+{
+    "_meta": {
+        "hostvars": {
+            "asusvpn": {
+                "ansible_host": "10.147.18.14"
+            },
+            "kevinvm1vpn": {
+                "ansible_host": "10.147.18.72"
+            },
+            "lenvpn": {
+                "ansible_host": "10.147.18.1"
+            }
+        }
+    },
+
+ 
+
+
+
+
+
